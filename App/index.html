@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Test</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="page-wrapper">
+    <h1>BCI Dev</h1>
+
+    <div id="status">Connecting...</div>
+
+    <ul id="messages"></ul>
+
+    <form id="message-form" action="#" method="post">
+      <textarea id="message" placeholder="Write your JSON request here..." required></textarea>
+      <button type="submit">Send Request</button>
+      <button type="button" id="close">Close Connection</button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
