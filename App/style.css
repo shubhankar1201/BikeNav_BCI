@@ -35,6 +35,10 @@ h1 {
   margin-bottom: 1rem;
 }
 
+.center {
+  text-align: center;
+}
+
 .open {
   color: green;
 }
@@ -104,9 +108,17 @@ button {
   border-bottom: 1px solid #999;
 }
 
-button[type="submit"] {
+#subscribe {
   background: #69c773;
   border-bottom: 1px solid #5d7d1f;
+}
+
+#voice_button {
+  background: #a7a7a7;
+  margin: 70px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 button:hover {

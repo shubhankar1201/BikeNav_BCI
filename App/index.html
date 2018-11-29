@@ -5,20 +5,23 @@
   <title>Test</title>
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
-  <div id="page-wrapper">
-    <h1>BCI Dev</h1>
+  <div class="center" id="page-wrapper">
+    <h1>BCI Motorcycle Navigation Aid</h1>
 
     <div id="status">Connecting...</div>
 
+    <div class="center">
+      <button type="button" id="voice_button"><span style="font-size: 3em; color: rgb(255, 255, 255);"><i class="fas fa-microphone"></i></span></button>
+    </div>
+    
+
     <ul id="messages"></ul>
 
-    <form id="message-form" action="#" method="post">
-      <textarea id="message" placeholder="Write your JSON request here..." required></textarea>
-      <button type="submit">Send Request</button>
-      <button type="button" id="close">Close Connection</button>
-    </form>
+    <button type="button" id="subscribe">Subscribe</button>
+    <button type="button" id="close">Close Connection</button>
   </div>
 
   <script src="app.js"></script>
