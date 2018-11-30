@@ -111,10 +111,8 @@ window.onload = function() {
 
       //Update button color based on push flag status
       if (push) {
-        micBtn.style.background = 'red';
-      } else {
-        micBtn.style.background = '#a7a7a7';
-      }
+        micBtn.startDictation();
+      } 
     }
 
     //Save auth token to local storage if it exists in the response
@@ -141,5 +139,6 @@ window.onload = function() {
     socket.close();
     return false;
   };
+  
 
 };

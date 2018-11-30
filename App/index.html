@@ -6,6 +6,44 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <style>
+	.speech {border: 1px; color:#BABABA;border-radius:20px; width: 300px; padding: 0; margin:auto}
+	.speech input {border: 1;border-radius:20px; width: 240px; display: inline-block; height: 30px; text-align:center}
+  </style>
+  <!-- HTML5 Speech Recognition API -->
+  <script>
+	function startDictation() {
+		var micBtn = document.getElementById('voice_button');
+		micBtn.src="img/voice_anim.gif";
+		if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+		var recognition = new webkitSpeechRecognition();
+	
+		recognition.continuous = false;
+		recognition.interimResults = false;
+
+		recognition.lang = "en-US";
+		recognition.start();
+
+		recognition.onresult = function(e) {
+			document.getElementById('transcript').value
+									= e.results[0][0].transcript;
+			recognition.stop();
+			micBtn.src="img/voice_icon.jpg";
+			document.getElementById('labnol').submit();
+		};
+
+		recognition.onerror = function(e) {
+			recognition.stop();
+			micBtn.src="img/voice_icon.jpg";
+		}
+		
+		recognition.onend = function(){
+			micBtn.src="img/voice_icon.jpg";
+		}
+		}
+	}
+	</script>
 </head>
 <body>
   <div class="center" id="page-wrapper">
@@ -13,12 +51,11 @@
 
     <div id="status">Connecting...</div>
 
-    <div class="center">
-      <button type="button" id="voice_button"><span style="font-size: 3em; color: rgb(255, 255, 255);"><i class="fas fa-microphone"></i></span></button>
-    </div>
-    
-
-    <ul id="messages"></ul>
+      <form id="labnol" method="get" action="https://www.google.com/search">
+		<div class="speech">
+			<input type="text" name="q" id="transcript" placeholder="Speak" /></div>
+			<img onclick="startDictation()" id="voice_button" src="img/voice_icon.jpg"/>
+	  </form>
 
     <button type="button" id="subscribe">Subscribe</button>
     <button type="button" id="close">Close Connection</button>
