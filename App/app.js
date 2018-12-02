@@ -9,8 +9,9 @@ window.onload = function() {
   var micBtn = document.getElementById('voice_button');
 
   var toggleFlag = false;
+  var voiceToggle = false;
   var push = false;
-  var threshold = 0.95;
+  var threshold = 0.6;
 
 
   // Create a new WebSocket.
@@ -28,6 +29,9 @@ window.onload = function() {
     socketStatus.innerHTML = 'Connected to: ' + event.currentTarget.URL;
     socketStatus.className = 'open';
 
+    //Clearing local storage
+    localStorage.clear();
+
     //Get auth token
     var auth_request =   {
       "jsonrpc": "2.0",
@@ -37,20 +41,20 @@ window.onload = function() {
     };
     socket.send(JSON.stringify(auth_request));
 
-    //Send create session request
-    var create_session_request =   {
-      "jsonrpc": "2.0",
-      "method": "createSession",
-      "params": {
-        "_auth": localStorage.getItem("auth"),
-        "status": "open"
-      },
-      "id": 1
-    }
-    console.log("create session request: " + JSON.stringify(create_session_request));
-    socket.send(JSON.stringify(create_session_request));
-
-
+    setTimeout(function(){ 
+      //Send create session request
+      var create_session_request =   {
+        "jsonrpc": "2.0",
+        "method": "createSession",
+        "params": {
+          "_auth": localStorage.getItem("auth"),
+          "status": "open"
+        },
+        "id": 1
+      }
+      console.log("create session request: " + JSON.stringify(create_session_request));
+      socket.send(JSON.stringify(create_session_request));
+    }, 500);
 
   };
 
@@ -110,14 +114,19 @@ window.onload = function() {
       console.log('push: ' + push);
 
       //Update button color based on push flag status
-      if (push) {
-        micBtn.startDictation();
+      if (push && !voiceToggle) {
+        voiceToggle = true;
+        startDictation();
+        setTimeout(function(){
+          voiceToggle = false;
+        }, 1000);
       } 
     }
 
     //Save auth token to local storage if it exists in the response
-    if ('result' in response && localStorage.getItem('auth') === undefined) {
+    if ('result' in response && !localStorage.getItem('auth')) {
       //console.log(response.result._auth);
+      // console.log("Im in auth set");
       var auth = response.result._auth;
       localStorage.setItem('auth', auth);
       console.log(localStorage);
@@ -139,6 +148,42 @@ window.onload = function() {
     socket.close();
     return false;
   };
-  
+
+  voice_button.onclick = function(e) {
+    e.preventDefault();
+    startDictation();
+  }
+
+  function startDictation() {
+		var micBtn = document.getElementById('voice_button');
+		micBtn.src="img/voice_anim.gif";
+		if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+		var recognition = new webkitSpeechRecognition();
+	
+		recognition.continuous = false;
+		recognition.interimResults = false;
+
+		recognition.lang = "en-US";
+		recognition.start();
+
+		recognition.onresult = function(e) {
+			document.getElementById('transcript').value
+									= e.results[0][0].transcript;
+			recognition.stop();
+			micBtn.src="img/voice_icon.jpg";
+			document.getElementById('labnol').submit();
+		};
+
+		recognition.onerror = function(e) {
+			recognition.stop();
+			micBtn.src="img/voice_icon.jpg";
+		}
+		
+		recognition.onend = function(){
+			micBtn.src="img/voice_icon.jpg";
+		}
+		}
+	}
 
 };
