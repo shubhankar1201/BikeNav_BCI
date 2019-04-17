@@ -15,6 +15,7 @@ html {
   font-family: 'Google-Sans-Font';
   font-size: 100%;
   background: #e0dddd;
+  position: relative;
 }
 
 #page-wrapper {
@@ -25,6 +26,10 @@ html {
   border-top: 5px solid #4885ed;
   box-shadow: 0 2px 10px rgba(0,0,0,0.8);
   border-radius: 20px;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%,-50%);
 }
 
 h1 {
